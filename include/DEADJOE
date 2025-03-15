@@ -1,0 +1,33 @@
+
+*** These modified files were found in JOE when it aborted on Sat Mar 15 10:33:30 2025
+*** JOE was aborted by UNIX signal 1
+
+*** Datei '(Unbenannt)'
+ego
+', '
+', '
+
+*** Datei '(Unbenannt)'
+joe
+username
+,
+', '
+,
+setExtraHeaders
+setExtra
+
+*** Datei '(Unbenannt)'
+/home/ego/git/test/a.txt
+a.txt
+a.txt
+a.txt
+/home/ego/git/test/.git/COMMIT_EDITMSG
+/home/ego/vscode/projects/D1Mini_DS18B20/platformio.ini
+/home/ego/vscode/projects/D1Mini_DS18B20/platformio.ini
+env.h
+README.md
+env.bsp
+
+*** Datei '* Startup Log *'
+Bearbeite '/etc/joe/joerc'...Bearbeite '/etc/joe/ftyperc'...Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/joerc

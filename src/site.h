@@ -1,0 +1,204 @@
+#ifndef SITE_H
+#define SITE_H
+
+class Site {
+	private:
+		String content;
+	public:
+		Site();
+		String get() const { return content; }
+};
+
+Site::Site() {
+	content = R"====(
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Zähler</title>
+    <style>
+    body { background-color: #000; justify-content: center; align-items: center; }
+        .container {
+            width: 300px;
+            height: 400px; background-color: #ccc;
+            border: 2px solid black; border-radius: 10px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .title {
+            width: 100%;
+            text-align: center; background-color: #ced;
+            border: 2px solid black; border-radius: 7px;
+            padding: 5px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .numbers {
+            display: flex;
+            gap: 5px;;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .number {
+            width: 18px;
+            height: 30px; background-color: #eee;
+            border: 2px solid black; border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .ticker {
+            width: 18px;
+            height: 20px; background-color: #eee;
+            border: 2px solid black; border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .komma {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+        }
+        .m { font-size: 25px; margin-top: 5px; }
+        .off { visibility: hidden; }
+        .pointer { cursor: pointer; }
+    </style>
+    <script>
+        const _WAITTIME = 1000;
+
+        class GAZ {
+            constructor() {
+                this.digits = 7;
+                this.actValue = 0;
+                this.maxValue = 10000000;
+                this.isEdit = false;
+                this.timerCtrl = null;
+                this.numberList = document.getElementsByClassName("number");
+                this.tickerList = document.getElementsByClassName("ticker");
+                Array.prototype.forEach.call(this.tickerList, (item, index) => {
+                    item.addEventListener("click", () => { this.update(index); })
+                })
+                document.getElementById("button").addEventListener("click", () => { this.job() })
+            } 
+            view() {
+                const tmp = (this.actValue + this.maxValue).toString();
+                Array.prototype.forEach.call(tmp.substring(1), (item, index) => {
+                    this.numberList[index].textContent = item;
+                })
+            }
+            add(v) {    
+                const tmp = this.actValue + v;
+                if((tmp < this.maxValue) && (tmp >= 0)) {
+                    this.actValue = tmp;
+                    this.view();
+                }
+            }
+            update(ind) {
+                const operand = Math.floor(ind/this.digits);
+                const weight = ind % this.digits;
+                let delta = 10 ** (this.digits - weight - 1);
+                if(operand) { delta *= -1;}
+                this.add(delta);
+            }
+            getCounter() {
+                fetch("/get?poll")    
+                .then(res => res.json())
+                .then(data => {
+                    this.actValue = data.value;
+                    this.view();
+                })
+                .catch(err => {console.log(err)});
+            }
+            setConter() {
+                fetch("/get?cont=" + this.actValue)
+                .then(res => res.text())
+                .then(data => {console.log(data)})
+                .catch(err => console.log(err));
+            }
+            job() {
+                this.isEdit = !this.isEdit;
+                if(this.isEdit) {
+                    if(this.timerCtrl) {
+                        window.clearInterval(this.timerCtrl);
+                        this.timerCtrl = null;
+                    }
+                    document.getElementById("edit").style.visibility = "visible";
+                } else {
+                    document.getElementById("edit").style.visibility = "hidden";
+                    this.setConter();
+                    this.timerCtrl = window.setInterval( () => { this.getCounter();}, _WAITTIME)
+                }
+            }
+            init() {
+                this.getCounter();
+                this.timerCtrl = window.setInterval( () => { this.getCounter(); }, _WAITTIME )
+            }
+        }
+
+        window.onload = () => {
+            const gaz = new GAZ();
+            gaz.init();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="title">GAS Zähler</div>
+        <div class="title">Aktueller Zählerstand</div>
+        <div class="numbers">
+            <div class="number"></div>
+            <div class="number"></div>
+            <div class="number"></div>
+            <div class="number"></div>
+            <div class="number"></div>
+            <div class="komma">,</div>
+            <div class="number"></div>
+            <div class="number"></div>
+            <div class="m">  m³</div>   
+        </div>
+        <p></p>
+        <div id="button" class="title pointer">Zählerstand setzen</div>
+        <div id="edit" class="off">
+            <div class="numbers">
+                <div class="ticker">+</div>
+                <div class="ticker">+</div>
+                <div class="ticker">+</div>
+                <div class="ticker">+</div>
+                <div class="ticker">+</div>
+                <div class="komma">,</div>
+                <div class="ticker">+</div>
+                <div class="ticker">+</div>
+                <div class="m">  </div> 
+            </div>  
+            <div class="numbers">
+                <div class="ticker">-</div>
+                <div class="ticker">-</div>
+                <div class="ticker">-</div>
+                <div class="ticker">-</div>
+                <div class="ticker">-</div>
+                <div class="komma">,</div>
+                <div class="ticker">-</div>
+                <div class="ticker">-</div>
+                <div class="m">  </div> 
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+)====";
+}
+
+#endif
