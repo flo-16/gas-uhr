@@ -1,41 +1,39 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
-#include <Arduino.h>
-
 class Sensor{
 	private:
 		uint8_t pin;
-		uint8_t testOn;
-		uint16_t leerTakte;
-		uint16_t idle;
+		uint32_t bouce;
 		uint32_t counter;
-		uint16_t testWert;
-		void test();
 	public:
-		Sensor(const uint8_t p, const uint8_t tActiv, const uint16_t leer):pin(p), testOn(tActiv), leerTakte(leer), idle(0) {}
+		Sensor(const uint8_t p, const uint32_t b):pin(p), bouce(b) {}
 		uint32_t getCounter() const { return counter; }
 		void setCounter(uint32_t v) { counter = v; }
 		void setup();
-		void update();
+		void update(uint32_t t);
 };
 
 void Sensor::setup() {
 	pinMode(pin, INPUT_PULLUP);
 }
 
-void Sensor::update() {
-	if(!(digitalRead(pin) || idle)) {
-		counter++;
-		idle = leerTakte;
+void Sensor::update(uint32_t t) {
+	static uint8_t oldState = HIGH;
+	static uint8_t buttonState = HIGH;
+	static uint32_t bouceTime = 0;
+
+	uint8_t reading = digitalRead(pin);
+  if (reading != oldState) { bouceTime = t; }
+	  	
+	if ((t - bouceTime) > bouce) {
+		if (reading != buttonState) {
+			buttonState = reading;
+			if (buttonState == LOW) { counter++; }
+		}
 	}
-	if(idle) { --idle; }
-	if(testOn) { test(); }
+	
+	oldState = reading;
 }
-
-void Sensor::test() {
-	testWert++;
-	if(!testWert) counter++;
-}
-
+	
 #endif

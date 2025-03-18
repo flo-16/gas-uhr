@@ -7,14 +7,15 @@
 #include "sensor.h"
 #include "enumState.h"
 
-const uint8_t INPUT_PIN     = 2;                     // Input-Pin - LOW aktiv
-const uint8_t TEST_ON       = 0;				             // Testlauf: 0 -> AUS, 1 -> EIN
-const uint16_t LEERTAKTE    = 500;		               // Entprellen (in loop-Schleife leere Takte herunterzählen.)
-const enumState WIFI_STATE  = STATION;               // STATION | ACCESS
+// Globals ----------------------------
+const uint8_t INPUT_PIN     = D1;                     // Input-Pin - LOW aktiv
+const enumState WIFI_STATE  = STATION;                // STATION | ACCESS
+const uint32_t BOUNCE       = 10;                     // Entprellen
+// ------------------------------------
 
 Site site;                                           // HTML-Seite
 AsyncWebServer server(80);                           // Port 80
-Sensor sensor(INPUT_PIN, TEST_ON, LEERTAKTE);             
+Sensor sensor(INPUT_PIN, BOUNCE);
 
 void notFound(AsyncWebServerRequest *request);
 void setStationMode();
@@ -49,7 +50,7 @@ void setup() {
 }
 
 void loop() {
-  sensor.update();
+  sensor.update(millis());
 }
 
 void notFound(AsyncWebServerRequest *request) {
