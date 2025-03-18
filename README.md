@@ -1,28 +1,27 @@
-## WLAN
-# Diesen Code ausführen:
+# Gas-Uhr
+Datenerfassung mit Sensor und Ausgabe über WLAN. Server-Client(Ajax).
+
+### WLAN einrichten:
+#### Im Terminal ausführen:
 ```
-		cd include
-		cp env.bsp env.h
-		nano env.h
+cd include
+cp env.bsp env.h
+nano env.h
 
 ```
-# Zugangsdaten anpassen:
-
-// Zugangsdaten STATION MODE
-const char* sta_ssid = "";
-const char* sta_password = "";
-
-// Zugangsdaten ACCESS MODE
-const char* ap_ssid = "";
-const char* ap_password = "";
-
-# und env.h speichern.
-
-
-# In main.cpp bei Bedarf DEFAULTS ändern:
+#### Zugangsdaten anpassen:
 ```
-		const uint8_t INPUT_PIN     = 2;                     // Input-Pin - LOW aktiv
-		const uint8_t TEST_ON       = 0;				             // Testlauf: 0 -> AUS, 1 -> EIN
-		const uint16_t LEERTAKTE    = 500;		               // Entprellen (in loop-Schleife leere Takte herunterzählen.)
-		const enumState WIFI_STATE  = STATION;               // WLAN MODUS: STATION oder ACCESS
+* STATION-MODE
+    * SSID = sta_ssid, Passwort = sta_password
+* ACCESS-MODE
+    * SSID = ap_ssid, Passwort = ap_password
+
+```
+
+#### env.h speichern.
+### Globale Einstellungen(main.cpp//Globals):
+```
+* INPUT_PIN: GPIO, LOW-aktiv
+* WIFI_STATE: STATION oder ACCESS
+* BOUNCE: Entprellen in ms(0..)
 ```
