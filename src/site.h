@@ -48,8 +48,10 @@ Site::Site() {
         }
 
         .number {
+            font-family: Tahoma, Verdana, sans-serif;
+            font-weight: bold;
             width: 18px;
-            height: 30px; background-color: #eee;
+            height: 30px; background-color: #6d893d;
             border: 2px solid black; border-radius: 5px;
             display: flex;
             align-items: center;
@@ -57,6 +59,10 @@ Site::Site() {
             font-size: 18px;
         }
         .ticker {
+            font-family: Tahoma, Verdana, sans-serif;
+            font-weight: bold;
+            color: #ffffff;
+            cursor: pointer;
             width: 18px;
             height: 20px; background-color: #eee;
             border: 2px solid black; border-radius: 5px;
@@ -65,15 +71,21 @@ Site::Site() {
             justify-content: center;
             font-size: 18px;
         }
+
         .komma {
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 25px;
         }
+
         .m { font-size: 25px; margin-top: 5px; }
         .off { visibility: hidden; }
         .pointer { cursor: pointer; }
+        .white { color: #ffffff; }
+        .gold { color: #ffd700; }
+        .plus { background-color: #228b22; }
+        .minus { background-color: #ff0000; }
     </style>
     <script>
         const _WAITTIME = 1000;
@@ -158,39 +170,39 @@ Site::Site() {
         <div class="title">GAS Zähler</div>
         <div class="title">Aktueller Zählerstand</div>
         <div class="numbers">
-            <div class="number"></div>
-            <div class="number"></div>
-            <div class="number"></div>
-            <div class="number"></div>
-            <div class="number"></div>
+            <div class="number white"></div>
+            <div class="number white"></div>
+            <div class="number white"></div>
+            <div class="number white"></div>
+            <div class="number white"></div>
             <div class="komma">,</div>
-            <div class="number"></div>
-            <div class="number"></div>
+            <div class="number gold"></div>
+            <div class="number gold"></div>
             <div class="m">  m³</div>   
         </div>
         <p></p>
         <div id="button" class="title pointer">Zählerstand setzen</div>
         <div id="edit" class="off">
             <div class="numbers">
-                <div class="ticker">+</div>
-                <div class="ticker">+</div>
-                <div class="ticker">+</div>
-                <div class="ticker">+</div>
-                <div class="ticker">+</div>
+                <div class="ticker plus">+</div>
+                <div class="ticker plus">+</div>
+                <div class="ticker plus">+</div>
+                <div class="ticker plus">+</div>
+                <div class="ticker plus">+</div>
                 <div class="komma">,</div>
-                <div class="ticker">+</div>
-                <div class="ticker">+</div>
+                <div class="ticker plus">+</div>
+                <div class="ticker plus">+</div>
                 <div class="m">  </div> 
             </div>  
             <div class="numbers">
-                <div class="ticker">-</div>
-                <div class="ticker">-</div>
-                <div class="ticker">-</div>
-                <div class="ticker">-</div>
-                <div class="ticker">-</div>
+                <div class="ticker minus">-</div>
+                <div class="ticker minus">-</div>
+                <div class="ticker minus">-</div>
+                <div class="ticker minus">-</div>
+                <div class="ticker minus">-</div>
                 <div class="komma">,</div>
-                <div class="ticker">-</div>
-                <div class="ticker">-</div>
+                <div class="ticker minus">-</div>
+                <div class="ticker minus">-</div>
                 <div class="m">  </div> 
             </div>
         </div>
