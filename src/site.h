@@ -21,7 +21,8 @@ Site::Site() {
     body { background-color: #000; justify-content: center; align-items: center; }
         .container {
             width: 300px;
-            height: 400px; background-color: #ccc;
+            height: 360px;
+            background-color: #ccc;
             border: 2px solid black; border-radius: 10px; 
             display: flex;
             flex-direction: column;
@@ -52,7 +53,7 @@ Site::Site() {
             font-weight: bold;
             width: 18px;
             height: 30px; background-color: #6d893d;
-            border: 2px solid black; border-radius: 5px;
+            border: 1px solid black; border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -79,13 +80,15 @@ Site::Site() {
             font-size: 25px;
         }
 
-        .m { font-size: 25px; margin-top: 5px; }
         .off { visibility: hidden; }
         .pointer { cursor: pointer; }
         .white { color: #ffffff; }
         .gold { color: #ffd700; }
         .plus { background-color: #228b22; }
         .minus { background-color: #ff0000; }
+        .fs24 { font-size: 24px; }
+        .fs18 {font-size: 18px; font-weight: normal }
+        .padd { margin-top: 8px; padding: 10px; border: 1px solid black; border-radius: 3px; background-color: #aaaaaa; }
     </style>
     <script>
         const _WAITTIME = 1000;
@@ -167,9 +170,9 @@ Site::Site() {
 </head>
 <body>
     <div class="container">
-        <div class="title">GAS Zähler</div>
-        <div class="title">Aktueller Zählerstand</div>
-        <div class="numbers">
+        <div class="title fs24">GAS Zähler</div>
+        <div class="title fs18">Aktueller Zählerstand in m³</div>
+        <div class="numbers padd">
             <div class="number white"></div>
             <div class="number white"></div>
             <div class="number white"></div>
@@ -178,10 +181,9 @@ Site::Site() {
             <div class="komma">,</div>
             <div class="number gold"></div>
             <div class="number gold"></div>
-            <div class="m">  m³</div>   
         </div>
         <p></p>
-        <div id="button" class="title pointer">Zählerstand setzen</div>
+        <div id="button" class="title fs18 pointer">Zählerstand setzen</div>
         <div id="edit" class="off">
             <div class="numbers">
                 <div class="ticker plus">+</div>
